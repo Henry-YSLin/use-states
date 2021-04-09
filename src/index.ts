@@ -157,11 +157,9 @@ export function bindStateEffect(
   };
 }
 
-type StateArray<T extends string> = `$${T}`;
-
 export function useStates(
   initialValues: Record<string, any>,
-) : Record<string, any> & Record<StateArray<string>, any> {
+) : Record<string, any> & Record<`$${string}`, any> {
   const data = {};
   Object.entries(initialValues).forEach(([key, value]) => {
     const [state, setState] = useState.call(this, value);
