@@ -1,61 +1,68 @@
 import { useRef, useState } from 'react';
 
-// This is a wrapper for useState
-
-export function bindState(getter: any, setter: (a:any) => void): {
-  value: any,
-  onChange: (e:any) => void
-};
-
-export function bindState(getter: any, setter: (a:any) => void, fieldName: string): {
+/**
+ * Provides a shorthand for binding a React state to an input element
+ * @param getter The current value of the state
+ * @param setter The setter function for the state
+ * @param propName The name of the value prop to bind to (defaults to value)
+ */
+export function bindState(getter: any, setter: (a:any) => void, propName?: string): {
   [key: string]: any,
   onChange: (e:any) => void
 };
 
-export function bindState(array:[any, (a:any) => void]): {
-  value: any,
-  onChange: (e:any) => void
-};
-
-export function bindState(array:[any, (a:any) => void], fieldName: string): {
+/**
+ * Provides a shorthand for binding a React state to an input element
+ * @param array An array containing the current value and the setter function for a state
+ *              (basically the array that useState returns)
+ * @param propName The name of the value prop to bind to (defaults to value)
+ */
+export function bindState(array:[any, (a:any) => void], propName?: string): {
   [key: string]: any,
   onChange: (e:any) => void
 };
 
 export function bindState(
   arrayOrGetter: any | [any, (a:any) => void],
-  setterOrFieldName?: string | ((a:any) => void),
-  fieldName?: string,
+  setterOrPropName?: string | ((a:any) => void),
+  propName?: string,
 ): {
     [key: string]: any,
     onChange: (e:any) => void
   } {
-  if (setterOrFieldName === undefined) {
+  if (setterOrPropName === undefined) {
     const [state, setState] = arrayOrGetter;
     return {
       value: state,
       onChange: (e) => setState(e.currentTarget.value),
     };
   }
-  if (typeof setterOrFieldName === 'string') {
+  if (typeof setterOrPropName === 'string') {
     const [state, setState] = arrayOrGetter;
     return {
-      [setterOrFieldName]: state,
-      onChange: (e) => setState(e.currentTarget[setterOrFieldName]),
+      [setterOrPropName]: state,
+      onChange: (e) => setState(e.currentTarget[setterOrPropName]),
     };
   }
-  if (fieldName === undefined) {
+  if (propName === undefined) {
     return {
       value: arrayOrGetter,
-      onChange: (e) => setterOrFieldName(e.currentTarget.value),
+      onChange: (e) => setterOrPropName(e.currentTarget.value),
     };
   }
   return {
-    [fieldName]: arrayOrGetter,
-    onChange: (e) => setterOrFieldName(e.currentTarget[fieldName]),
+    [propName]: arrayOrGetter,
+    onChange: (e) => setterOrPropName(e.currentTarget[propName]),
   };
 }
 
+/**
+ * Provides a shorthand for binding a React state to an input element and
+ * executing a side effect on state change
+ * @param getter The current value of the state
+ * @param setter The setter function for the state
+ * @param callback The function to be executed when the state changes
+ */
 export function bindStateEffect(
   getter: any,
   setter: (a:any) => void,
@@ -65,9 +72,17 @@ export function bindStateEffect(
   onChange: (e:any) => void
 };
 
+/**
+ * Provides a shorthand for binding a React state to an input element and
+ * executing a side effect on state change
+ * @param getter The current value of the state
+ * @param setter The setter function for the state
+ * @param fieldName The name of the value prop to bind to (defaults to value)
+ * @param callback The function to be executed when the state changes
+ */
 export function bindStateEffect(
-  getter: any, setter:
-  (a:any) => void,
+  getter: any,
+  setter: (a:any) => void,
   fieldName: string,
   callback: (newValue: any) => void
 ): {
@@ -75,6 +90,13 @@ export function bindStateEffect(
   onChange: (e:any) => void
 };
 
+/**
+ * Provides a shorthand for binding a React state to an input element and
+ * executing a side effect on state change
+ * @param array An array containing the current value and the setter function for a state
+ *              (basically the array that useState returns)
+ * @param callback The function to be executed when the state changes
+ */
 export function bindStateEffect(
   array:[any, (a:any) => void],
   callback: (newValue: any) => void
@@ -83,6 +105,14 @@ export function bindStateEffect(
   onChange: (e:any) => void
 };
 
+/**
+ * Provides a shorthand for binding a React state to an input element and
+ * executing a side effect on state change
+ * @param array An array containing the current value and the setter function for a state
+ *              (basically the array that useState returns)
+ * @param fieldName The name of the value prop to bind to (defaults to value)
+ * @param callback The function to be executed when the state changes
+ */
 export function bindStateEffect(
   array:[any, (a:any) => void],
   fieldName: string,
@@ -157,6 +187,11 @@ export function bindStateEffect(
   };
 }
 
+/**
+ * Makes every property in an object of initial values to be stateful
+ * @param initialValues An object of initial values
+ * @returns An object with the same properties but the properties are all stateful
+ */
 export function useStates(
   initialValues: Record<string, any>,
 ) : Record<string, any> & Record<`$${string}`, any> {

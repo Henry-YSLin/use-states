@@ -1,6 +1,6 @@
 {
   "name": "use-states",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A wrapper around React useState hook",
   "license": "MIT",
   "main": "dist/index.js",
