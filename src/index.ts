@@ -202,7 +202,7 @@ export function useStates(
     stateContainer.current = state;
     data[key] = [stateContainer, (val) => {
       setState(val);
-      data[key][0].current = val;
+      stateContainer.current = val;
     }];
   });
   const proxy = new Proxy(data, {
