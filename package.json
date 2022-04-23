@@ -6,13 +6,13 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "readme": "README.md",
-  "author": "Henry-YSLin",
+  "author": "hlysine",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Henry-YSLin/use-states.git"
+    "url": "https://github.com/hlysine/use-states.git"
   },
   "bugs": {
-    "url": "https://github.com/Henry-YSLin/use-states/issues"
+    "url": "https://github.com/hlysine/use-states/issues"
   },
   "keywords": [
     "react",
